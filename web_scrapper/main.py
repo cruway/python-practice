@@ -1,29 +1,23 @@
 from requests import get
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
+#from extractors.wwr import extract_jobs
 
-base_url = "https://weworkremotely.com/remote-jobs/search?term="
-search_term = "python"
+options = Options()
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
+browser = webdriver.Chrome(options=options)
 
-response = get(f"{base_url}{search_term}")
-if response.status_code != 200:
-    print("情報取得に失敗しました。")
-else:
-    result = []
-    soup = BeautifulSoup(response.text, "html.parser")
-    jobs = soup.find_all('section', class_="jobs")
-    for job_section in jobs:
-        job_posts = job_section.find_all('li')
-        job_posts.pop(-1)
-        for post in job_posts:
-            anchors = post.find_all('a')
-            anchor = anchors[1]
-            link = anchor['href']
-            company, kind, region = anchor.find_all('span', class_="company")
-            title = anchor.find('span', class_="title")
-            print(company.string, kind.string, region.string, title.string)
-            job_data = {
-                'company': company.string,
-                'region': region.string,
-                'position': title.string
-            }
-            result.append(job_data)
+browser.get("https://jp.indeed.com/jobs?q=python&limit=50")
+
+html = browser.page_source
+soup = BeautifulSoup(html, 'html.parser')
+job_list = soup.find("ul", class_="jobsearch-ResultsList")
+jobs = job_list.find_all(('li'), recursive=False)
+for job in jobs:
+    zone = job.find("div", class_="mosaic-zone")
+    if zone == None:
+        print("job li")
+    else:
+        print("mosaic li")
