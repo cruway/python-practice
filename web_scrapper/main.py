@@ -1,23 +1,18 @@
-from requests import get
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from bs4 import BeautifulSoup
-#from extractors.wwr import extract_jobs
+from extractors.indeed import extract_indeed_jobs
+from extractors.wwr import extract_wwr_jobs
+from extractors.greedJapan import extract_green_jobs
 
-options = Options()
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
-browser = webdriver.Chrome(options=options)
+keyword = input("どの分野を検索しますか?")
 
-browser.get("https://jp.indeed.com/jobs?q=python&limit=50")
+indeed = extract_indeed_jobs(keyword)
+wwr = extract_wwr_jobs(keyword)
+greenJapan = extract_green_jobs(keyword)
+jobs = indeed + wwr + greenJapan
 
-html = browser.page_source
-soup = BeautifulSoup(html, 'html.parser')
-job_list = soup.find("ul", class_="jobsearch-ResultsList")
-jobs = job_list.find_all(('li'), recursive=False)
+file = open(f"{keyword}.csv", "w")
+file.write("Position,Company,Location,URL\n")
+
 for job in jobs:
-    zone = job.find("div", class_="mosaic-zone")
-    if zone == None:
-        print("job li")
-    else:
-        print("mosaic li")
+    file.write(f"{job['position']},{job['company']},{job['location']},{job['link']}\n")
+
+file.close()
