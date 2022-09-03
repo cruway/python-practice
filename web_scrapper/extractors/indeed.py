@@ -2,11 +2,13 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 
+
 def stringRepalce(stringWord):
     if stringWord is None:
         return None
     else:
         return stringWord.replace(",", " ")
+
 
 def get_page_count(keyword):
     print(keyword)
@@ -29,9 +31,9 @@ def get_page_count(keyword):
     else:
         return count
 
+
 def extract_indeed_jobs(keyword):
     pages = get_page_count(keyword);
-    print("Found", pages, "pages")
     results = []
     for page in range(pages):
         options = Options()
@@ -50,7 +52,7 @@ def extract_indeed_jobs(keyword):
         jobs = job_list.find_all(('li'), recursive=False)
         for job in jobs:
             zone = job.find("div", class_="mosaic-zone")
-            if zone == None:
+            if zone is None:
                 anchor = job.select_one("h2 a")
                 title = anchor['aria-label']
                 link = anchor['href']

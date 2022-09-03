@@ -23,6 +23,8 @@ def get_page_count(keyword):
 
 def extract_green_jobs(keyword):
     pages = get_page_count(keyword)
+    if pages >= 5:
+        pages = 10
     results = []
     base_url = "https://www.green-japan.com/search_key/01?key=vdjgfsxscaxvtfi8fejf&keyword="
     for page in range(1, pages + 1):

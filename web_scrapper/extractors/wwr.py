@@ -1,11 +1,13 @@
 from requests import get
 from bs4 import BeautifulSoup
 
-def stringRepalce(stringWord):
+
+def string_space_replace(stringWord):
     if stringWord is None:
         return None
     else:
         return stringWord.replace(",", " ")
+
 
 def extract_wwr_jobs(keyword):
     base_url = "https://weworkremotely.com/remote-jobs/search?term="
@@ -28,9 +30,9 @@ def extract_wwr_jobs(keyword):
                 title = anchor.find('span', class_="title")
                 job_data = {
                     'link': f"https://weworkremotely.com{link}",
-                    'company':  stringRepalce(company.string),
-                    'location': stringRepalce(region.string),
-                    'position': stringRepalce(title.string)
+                    'company': string_space_replace(company.string),
+                    'location': string_space_replace(region.string),
+                    'position': string_space_replace(title.string)
                 }
                 results.append(job_data)
         return results
