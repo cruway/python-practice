@@ -7,6 +7,8 @@ while exitBool:
     else:
         num.append(int(a))
 target = int(input("targetを入力してください."))
+
+
 def twoSum(nums, target):
     for i in range(len(nums)):
         for j in range(len(nums)):
