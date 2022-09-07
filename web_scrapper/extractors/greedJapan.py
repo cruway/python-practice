@@ -15,7 +15,7 @@ def get_page_count(keyword):
         print("情報取得に失敗しました。")
     else:
         soup = BeautifulSoup(response.text, 'html.parser')
-        pagination = soup.find("nav", class_="pagy_nav pagination")
+        pagination = soup.find("nav", class_="pagy_nav pagina tion")
         if pagination is None:
             return 1
         url_link = pagination.find_all('a').pop(-2)
@@ -34,7 +34,7 @@ def extract_green_jobs(keyword):
         else:
             soup = BeautifulSoup(response.text, "html.parser")
             job_list = soup.find("div", class_="srch-rslt")
-            jobs = job_list.find_all(('div'), class_="card-info__wrapper js-card-info__wrapper", recursive=False)
+            jobs = job_list.find_all('div', class_="card-info__wrapper js-card-info__wrapper", recursive=False)
             for job in jobs:
                 link = job.find("a")['href']
                 position = job.find("div", class_="job-offer-icon").get_text() + '/' +job.find("h3", class_="card-info__heading-area__title").get_text()
