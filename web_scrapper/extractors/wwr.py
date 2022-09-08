@@ -6,7 +6,8 @@ def string_space_replace(stringWord):
     if stringWord is None:
         return None
     else:
-        return stringWord.replace(",", " ")
+        return stringWord.replace(",", " ").replace("\n", "").replace(
+            "\t", "").lstrip().rstrip()
 
 
 def extract_wwr_jobs(keyword):
@@ -26,7 +27,8 @@ def extract_wwr_jobs(keyword):
                 anchors = post.find_all('a')
                 anchor = anchors[1]
                 link = anchor['href']
-                company, kind, region = anchor.find_all('span', class_="company")
+                company, kind, region = anchor.find_all('span',
+                                                        class_="company")
                 title = anchor.find('span', class_="title")
                 job_data = {
                     'link': f"https://weworkremotely.com{link}",
