@@ -5,7 +5,8 @@ def stringRepalce(stringWord):
     if stringWord is None:
         return None
     else:
-        return stringWord.replace(",", " ")
+        return stringWord.replace(",", " ").replace("\n", "").replace(
+            "\t", "").lstrip().rstrip()
 
 def get_page_count(keyword):
     base_url = "https://www.green-japan.com/search_key/01?key=vdjgfsxscaxvtfi8fejf&keyword="

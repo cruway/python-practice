@@ -7,7 +7,8 @@ def stringRepalce(stringWord):
     if stringWord is None:
         return None
     else:
-        return stringWord.replace(",", " ")
+        return stringWord.replace(",", " ").replace("\n", "").replace(
+            "\t", "").lstrip().rstrip()
 
 
 def get_page_count(keyword):

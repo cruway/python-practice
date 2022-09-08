@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, send_file
 from extractors.indeed import extract_indeed_jobs
 from extractors.wwr import extract_wwr_jobs
 from extractors.greedJapan import extract_green_jobs
+from extractors.remoteok import extract_remoteok_jobs
 from file import save_to_file
 
 app = Flask("JobScrapper")
@@ -23,10 +24,11 @@ def search():
     if keyword in db:
         jobs = db[keyword]
     else:
-        indeed = extract_indeed_jobs(keyword)
+        #indeed = extract_indeed_jobs(keyword)
         wwr = extract_wwr_jobs(keyword)
         greenJapan = extract_green_jobs(keyword)
-        jobs = indeed + wwr + greenJapan
+        remoteok = extract_remoteok_jobs(keyword)
+        jobs = wwr + greenJapan + remoteok
         db[keyword] = jobs
     return render_template("search.html", keyword=keyword, jobs=jobs)
 
