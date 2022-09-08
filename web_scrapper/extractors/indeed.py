@@ -11,10 +11,10 @@ def stringRepalce(stringWord):
 
 
 def get_page_count(keyword):
-    print(keyword)
     options = Options()
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
+    options.add_argument("--lang=ja-JP")
     browser = webdriver.Chrome(options=options)
 
     browser.get(f"https://jp.indeed.com/jobs?q={keyword}")
@@ -33,7 +33,7 @@ def get_page_count(keyword):
 
 
 def extract_indeed_jobs(keyword):
-    pages = get_page_count(keyword);
+    pages = get_page_count(keyword)
     results = []
     for page in range(pages):
         options = Options()
@@ -43,7 +43,6 @@ def extract_indeed_jobs(keyword):
 
         base_url = "https://jp.indeed.com/jobs"
         final_url = f"{base_url}?q={keyword}&start={page*10}"
-        print("Requesting", final_url)
         browser.get(final_url)
 
         html = browser.page_source
