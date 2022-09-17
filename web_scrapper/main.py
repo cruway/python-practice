@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, send_file
-from extractors.indeed import extract_indeed_jobs
+#from extractors.indeed import extract_indeed_jobs
 from extractors.wwr import extract_wwr_jobs
 from extractors.greedJapan import extract_green_jobs
 from extractors.remoteok import extract_remoteok_jobs
@@ -10,7 +10,7 @@ app = Flask("JobScrapper")
 
 @app.route("/")
 def home():
-    return render_template("home.html", name="sim")
+    return render_template("index.html", name="sim")
 
 
 db = {}
